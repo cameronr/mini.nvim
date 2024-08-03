@@ -52,6 +52,9 @@ local mock_treesitter_builtin = function() child.cmd('source tests/dir-ai/mock-l
 
 local mock_treesitter_plugin = function() child.cmd('set rtp+=tests/dir-ai') end
 
+-- Small time used to reduce test flackiness
+local small_time = vim.fn.has('win32') == 1 and 50 or 10
+
 -- Output test set
 local T = new_set({
   hooks = {
@@ -1691,7 +1694,7 @@ T['Textobject']['prompts helper message after one idle second'] = new_set({ para
     -- there are `an`/`in`/`al`/`il` mappings.
     -- Wait 1000 seconds after that.
     child.o.timeoutlen = 50
-    local total_wait_time = 1000 + child.o.timeoutlen
+    local total_wait_time = 1000 + child.o.timeoutlen + small_time
 
     set_lines({ '(aaa)' })
     set_cursor(1, 1)
@@ -1767,7 +1770,7 @@ T['Textobject']['respects `config.silent`'] = function()
   child.lua('MiniAi.config.silent = true')
 
   child.o.timeoutlen = 50
-  local total_wait_time = 1000 + child.o.timeoutlen
+  local total_wait_time = 1000 + child.o.timeoutlen + small_time
 
   set_lines({ '(aaa)' })
   set_cursor(1, 1)
