@@ -29,7 +29,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      FILE: tests/test_ai.lua
+      FILE: tests/test_align.lua
 
     steps:
       - uses: actions/checkout@v4
